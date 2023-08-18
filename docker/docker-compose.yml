@@ -1,20 +1,26 @@
-version: '2.1'
+version: '3.8'
 services:
   database:
-    image: shichoc/mysqlshop
+    image: tzuhsuannn/mysqlshop
     container_name: database
     environment:
       MYSQL_ROOT_PASSWORD: "passwd"
-    networks:
-      backend:
-        aliases:
-          - "database"
+    ports:
+      - "8306:3306"
+    volumes:
+      - simpleshop:/var/lib/mysql
+     # - ./init.sql:/docker-entrypoint-initdb.d/1-init.sql
+     # - ./data.sql:/docker-entrypoint-initdb.d/2-data.sql
     healthcheck:
       test: ["CMD", "mysqladmin" ,"ping", "-h", "localhost"]
       timeout: 20s
       retries: 10
+    networks:
+      backend:
+        aliases:
+          - "database"
   myapp:
-    image: shichoc/simpleshopmysql:0.0.1-SNAPSHOT
+    image: tzuhsuannn/simpleshopmysql:0.0.1-SNAPSHOT
     container_name: simpleshopapp
     ports:
       - "8080:8080"
@@ -26,7 +32,8 @@ services:
         condition: service_healthy
     networks:
       - backend
-
+volumes:
+  simpleshop:
 networks:
   backend:
     driver: bridge
