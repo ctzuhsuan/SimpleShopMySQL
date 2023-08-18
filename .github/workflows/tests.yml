@@ -35,12 +35,13 @@ jobs:
         env:
             GITHUB_TOKEN: ${{ secrets.TOKEN }}
       - name: Deploy
-        uses: appleboy/ssh-action@master
+        uses: easingthemes/ssh-deploy@v2.1.5
         with:
-          host: ${{ secrets.HOST }}
-          username: ${{ secrets.USERNAME }}
-          key: ${{ secrets.KEY }}
-          port: 22
+          REMOTE_HOST: ${{ secrets.HOST }}
+          REMOTE_USER: ${{ secrets.USERNAME }}
+          SSH_PRIVATE_KEY: ${{ secrets.KEY }}
+          SOURCE: simpleshopmysql/
+          TARGET: /Users/tzuhsuan/Downloads/
           script: |
             # 切换工作区
             cd docker
