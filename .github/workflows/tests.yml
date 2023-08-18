@@ -20,9 +20,18 @@ jobs:
         run: |
           docker push tzuhsuannn/mysqlshop
           docker push tzuhsuannn/simpleshopmysql:0.0.1-SNAPSHOT
-      - name: Deploy app with Docker Compose
-        uses: pennsignals/publish_docker-compose@v0.1.0
-        with:
-          version: '0.2.6-rc.1' # optional
-          docker_compose: 'docker/docker-compose.build.yml' # required
-          repo_token: "${{ secrets.TOKEN }}"
+
+  Deploy-docker:
+    needs: [ build ]
+    name: Deploy Docker
+    runs-on: ubuntu-latest
+    steps:
+      - name: Deploy to Server
+          # 这里使用 ssh-deploy action
+        uses: easingthemes/ssh-deploy@v2.1.5
+        env:
+          SSH_PRIVATE_KEY: ${{ secrets.KEY }}
+          SOURCE: "SimpleShopMySQL/"
+          REMOTE_HOST: ${{ secrets.HOST }}
+          REMOTE_USER: ${{ secrets.HOST_USERNAME }}
+          TARGET: "/Users/tzuhsuan/Downloads/"
