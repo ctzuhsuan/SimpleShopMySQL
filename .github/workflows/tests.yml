@@ -20,15 +20,8 @@ jobs:
         run: |
           docker push tzuhsuannn/mysqlshop
           docker push tzuhsuannn/simpleshopmysql:0.0.1-SNAPSHOT
-
-
-  Deploy-docker:
-    needs: [ build ]
-    name: Deploy Docker
-    runs-on: ubuntu-latest
-    steps:
       - name: Deploy app with Docker Compose
-
         run: |
           cd docker
           docker-compose -f docker-compose.yml up
+
