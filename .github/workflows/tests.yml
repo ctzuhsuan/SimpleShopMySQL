@@ -12,7 +12,8 @@ jobs:
         run: |
           cd docker
           docker build -t tzuhsuannn/mysqlshop .
-              - name: Login to Registry
+
+      - name: Login to Registry
         run: docker login --username=${{ secrets.DOCKER_USERNAME }} --password ${{ secrets.DOCKER_PASSWORD }}
       - name: Push Image
         run: |
