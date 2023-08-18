@@ -3,35 +3,25 @@ on:
   push:
     branches: [ master ]
 jobs:
-  # 构建并上传 Docker镜像
   build:
-    runs-on: ubuntu-latest # 依赖的环境
+    #建置環境
+    runs-on: ubuntu-latest
     steps:
+      # 測試環境
       - uses: actions/checkout@v3
+      # 建立 image
       - name: Build Image
         run: |
           cd docker
           docker build -t tzuhsuannn/mysqlshop .
           cd ..
           mvn clean package dockerfile:build -DskipTests=true
+      # 登入 docker hub
       - name: Login to Registry
         run: docker login --username=${{ secrets.DOCKER_USERNAME }} --password ${{ secrets.DOCKER_PASSWORD }}
+      # 將image推上docker hub
       - name: Push Image
         run: |
           docker push tzuhsuannn/mysqlshop
           docker push tzuhsuannn/simpleshopmysql:0.0.1-SNAPSHOT
 
-  Deploy-docker:
-    needs: [ build ]
-    name: Deploy Docker
-    runs-on: ubuntu-latest
-    steps:
-      - name: Deploy to Server
-          # 这里使用 ssh-deploy action
-        uses: easingthemes/ssh-deploy@v2.1.5
-        env:
-          SSH_PRIVATE_KEY: ${{ secrets.KEY }}
-          SOURCE: "SimpleShopMySQL/"
-          REMOTE_HOST: ${{ secrets.HOST }}
-          REMOTE_USER: ${{ secrets.HOST_USERNAME }}
-          TARGET: "/Users/tzuhsuan/Downloads/"
