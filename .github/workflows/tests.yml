@@ -5,7 +5,7 @@ on:
 jobs:
   # 构建并上传 Docker镜像
   build:
-    runs-on: ubuntu-latest # 依赖的环境      
+    runs-on: ubuntu-latest # 依赖的环境
     steps:
       - uses: actions/checkout@v2
       - name: Build Image
@@ -20,3 +20,7 @@ jobs:
         run: |
           docker push tzuhsuannn/mysqlshop
           docker push tzuhsuannn/simpleshopmysql:0.0.1-SNAPSHOT
+      - name: Deploy
+        run: |
+          cd docker
+          docker-compose -f docker-compose.yml up
