@@ -32,7 +32,7 @@ jobs:
         env:
             GITHUB_TOKEN: ${{ secrets.TOKEN }}
       - name: Deploy
-        uses: appleboy/ssh-action@v0.1.10
+        uses: appleboy/ssh-action@master
         with:
           host: ${{ secrets.HOST }}
           username: ${{ secrets.USERNAME }}
