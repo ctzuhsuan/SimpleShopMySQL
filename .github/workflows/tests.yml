@@ -39,6 +39,6 @@ jobs:
           password: ${{ secrets.HOST_PASSWORD }} # 服务器登录密码
           # port: 8088
           script: |
-            cd docker
+            echo '啟用 Laravel 內建的維護模式's
             docker login --username=${{ secrets.DOCKER_USERNAME }} --password ${{ secrets.DOCKER_PASSWORD }} 
             docker-compose -f docker-compose.yml up
