@@ -12,7 +12,8 @@ jobs:
         run: |
           cd docker
           docker build -t tzuhsuannn/mysqlshop .
-
+          cd ..
+          mvn clean package dockerfile:build -DskipTests=true
       - name: Login to Registry
         run: docker login --username=${{ secrets.DOCKER_USERNAME }} --password ${{ secrets.DOCKER_PASSWORD }}
       - name: Push Image
