@@ -24,6 +24,7 @@ jobs:
           docker push tzuhsuannn/simpleshopmysql:0.0.1-SNAPSHOT
 
 
+
   deploy-docker:
     needs: [ build ]
     name: Deploy Docker
@@ -34,13 +35,12 @@ jobs:
         env:
             GITHUB_TOKEN: ${{ secrets.TOKEN }}
       - name: Deploy
-        uses: easingthemes/ssh-deploy@v2.1.5
+        uses: appleboy/ssh-action@master
         with:
-          REMOTE_HOST: ${{ secrets.HOST }}
-          REMOTE_USER: ${{ secrets.USERNAME }}
-          SSH_PRIVATE_KEY: ${{ secrets.KEY }}
-          SOURCE: simpleshopmysql/
-          TARGET: /Users/tzuhsuan/Downloads/
+          host: ${{ secrets.HOST }}
+          username: ${{ secrets.USERNAME }}
+          key: ${{ secrets.KEY }}
+          port: 22
           script: |
             # 切换工作区
             cd docker
