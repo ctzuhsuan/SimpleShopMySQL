@@ -41,7 +41,7 @@ jobs:
           username: ${{ secrets.USERNAME }}
           key: ${{ secrets.KEY }}
           port: 22
-          script: |
+          SCRIPT: |
             # 切换工作区
             cd docker
             # 登录镜像服务器
