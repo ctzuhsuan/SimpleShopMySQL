@@ -30,10 +30,10 @@ jobs:
       - name: Deploy
         uses: appleboy/ssh-action@v0.1.10
         with:
-          host: ${{ secrets.HOST }} # 服务器ip
-          username: ${{ secrets.HOST_USERNAME }} # 服务器登录用户名
-          password: ${{ secrets.HOST_PASSWORD }} # 服务器登录密码
-          port: ${{ secrets.HOST_PORT }} # 服务器ssh端口
+          host: ${{ secrets.HOST }}
+          username: ${{ secrets.USERNAME }}
+          key: ${{ secrets.KEY }}
+          #port: ${{ secrets.PORT }}
           script: |
             # 切换工作区
             cd docker
