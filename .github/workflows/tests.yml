@@ -27,7 +27,7 @@ jobs:
   deploy-docker:
     needs: [ build ]
     name: Deploy Docker
-    runs-on: ubuntu-latest
+    runs-on: macos-latest
     steps:
       - name: Get repository metadata
         uses: varunsridharan/action-repository-meta@main
