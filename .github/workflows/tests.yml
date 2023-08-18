@@ -39,10 +39,4 @@ jobs:
           SSH_PRIVATE_KEY: ${{ secrets.KEY }}
           SOURCE: simpleshopmysql/
           TARGET: /Users/tzuhsuan/Downloads/
-          SCRIPT: |
-            # 切换工作区
-            cd docker
-            # 登录镜像服务器
-            docker login --username=${{ secrets.DOCKER_USERNAME }} --password ${{ secrets.DOCKER_PASSWORD }} 
-            # 创建并启动容器
-            docker-compose -f docker-compose.yml up
+
