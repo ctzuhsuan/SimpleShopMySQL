@@ -8,8 +8,6 @@ jobs:
     runs-on: ubuntu-latest # 依赖的环境
     steps:
       - uses: actions/checkout@v2
-        with:
-          persist-credentials: false
       - name: Build Image
         run: |
           cd docker
@@ -22,22 +20,28 @@ jobs:
         run: |
           docker push tzuhsuannn/mysqlshop
           docker push tzuhsuannn/simpleshopmysql:0.0.1-SNAPSHOT
+
+
   deploy-docker:
     needs: [ build ]
     name: Deploy Docker
-    runs-on: macos-latest
+    runs-on: ubuntu-latest
     steps:
       - name: Get repository metadata
         uses: varunsridharan/action-repository-meta@main
         env:
-          GITHUB_TOKEN: ${{ secrets.TOKEN }}
+            GITHUB_TOKEN: ${{ secrets.TOKEN }}
       - name: Deploy
-        uses: easingthemes/ssh-deploy@v2.1.5
+        uses: appleboy/ssh-action@master
         with:
-          REMOTE_HOST: ${{ secrets.HOST }}
-          REMOTE_USER: ${{ secrets.USERNAME }}
-          SSH_PRIVATE_KEY: ${{ secrets.KEY }}
-          SOURCE: simpleshopmysql/
-          TARGET: /Users/tzuhsuan/Downloads/
-
-
+          host: ${{ secrets.HOST }}
+          username: ${{ secrets.HOST_USERNAME }}
+          password: ${{ secrets.HOST_PASSWORD }} # 服务器登录密码
+          port: 22
+          script: |
+            # 切换工作区
+            cd docker
+            # 登录镜像服务器
+            docker login --username=${{ secrets.DOCKER_USERNAME }} --password ${{ secrets.DOCKER_PASSWORD }} 
+            # 创建并启动容器
+            docker-compose -f docker-compose.yml up
