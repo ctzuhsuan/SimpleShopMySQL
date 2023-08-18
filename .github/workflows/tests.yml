@@ -27,18 +27,10 @@ jobs:
     name: Deploy Docker
     runs-on: ubuntu-latest
     steps:
-      - name: Get repository metadata
-        uses: varunsridharan/action-repository-meta@main
-        env:
-            GITHUB_TOKEN: ${{ secrets.TOKEN }}
-      - name: Deploy
-        uses: appleboy/ssh-action@master
-        with:
-          host: ${{ secrets.HOST }}
-          username: ${{ secrets.HOST_USERNAME }}
-          password: ${{ secrets.HOST_PASSWORD }} # 服务器登录密码
-          # port: 8088
-          script: |
-            echo '啟用 Laravel 內建的維護模式's
-            docker login --username=${{ secrets.DOCKER_USERNAME }} --password ${{ secrets.DOCKER_PASSWORD }} 
-            docker-compose -f docker-compose.yml up
+      - uses: actions/checkout@v2
+      - name: Build the stack
+        run:
+          cd docker
+          docker-compose -f docker-compose.yml up
+      - name: Test
+        run: docker run --network container:webapp-frontend appropriate/curl -s --retry 10 --retry-connrefused http://localhost:8080/
