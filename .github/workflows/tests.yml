@@ -27,6 +27,10 @@ jobs:
     name: Deploy Docker
     runs-on: ubuntu-latest
     steps:
+      - name: Get repository metadata
+        uses: varunsridharan/action-repository-meta@main
+        env:
+            GITHUB_TOKEN: ${{ secrets.TOKEN }}
       - name: Deploy
         uses: appleboy/ssh-action@v0.1.10
         with:
