@@ -24,7 +24,6 @@ jobs:
           docker push tzuhsuannn/simpleshopmysql:0.0.1-SNAPSHOT
 
 
-
   deploy-docker:
     needs: [ build ]
     name: Deploy Docker
