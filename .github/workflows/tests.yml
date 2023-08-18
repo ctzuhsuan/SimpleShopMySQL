@@ -28,8 +28,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Deploy app with Docker Compose
-        uses: docker/compose-action@v2
-        with:
-          compose-file: docker-compose.yml
-          project-name: mysqlshop
-          command: up -d
+        uses: actions/checkout@v3
+        run: |
+          cd docker
+          docker-compose -f docker-compose.yml up
