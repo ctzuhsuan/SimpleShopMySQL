@@ -20,17 +20,9 @@ jobs:
         run: |
           docker push tzuhsuannn/mysqlshop
           docker push tzuhsuannn/simpleshopmysql:0.0.1-SNAPSHOT
-
-
-  deploy-docker:
-    needs: [ build ]
-    name: Deploy Docker
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v2
-      - name: Build the stack
-        run:
-          cd docker
-          docker-compose -f docker-compose.yml up
-      - name: Test
-        run: docker run --network container:webapp-frontend appropriate/curl -s --retry 10 --retry-connrefused http://localhost:8080/
+      - name: Deploy app with Docker Compose
+        uses: docker/compose-action@v2
+        with:
+          compose-file: docker-compose.yml
+          project-name: mysqlshop
+          command: up -d
